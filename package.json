@@ -1,0 +1,27 @@
+{
+  "name": "teleselfis-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luizbaldi/teleselfis-bot.git"
+  },
+  "keywords": [
+    "teleselfies",
+    "bot",
+    "telegram"
+  ],
+  "author": "Luiz Baldi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luizbaldi/teleselfis-bot/issues"
+  },
+  "homepage": "https://github.com/luizbaldi/teleselfis-bot#readme",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.28.0"
+  }
+}
