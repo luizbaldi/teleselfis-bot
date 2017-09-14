@@ -39,11 +39,22 @@ module.exports = () => {
         }
     };
 
-    this.onNewPhoto = (bot, users, groupId, messageFrom) => {
-        let currentUser = UserController.getCurrentUser(users, messageFrom.id);
-        const currentDate = moment();
-        currentUser.posts.push(currentDate);
-        bot.sendMessage(groupId, `${currentUser.name}, sua imagem foi computada com sucesso :)`);
+    this.onNewPhoto = (bot, users, message) => {
+        const groupId = message.chat.id;
+        let currentUser = UserController.getCurrentUser(users, message.from.id);
+        const currentPhoto = {
+            date: moment(),
+            data: message.photo
+        };
+
+        let customMessage;
+        if (Util.isNewPhoto(currentPhoto.data, users)) {
+            currentUser.posts.push(currentPhoto);
+            customMessage = `${currentUser.name}, sua imagem foi computada com sucesso :)`;
+        } else {
+            customMessage = `Opa, parece que essa imagem é repetida...`;
+        }
+        bot.sendMessage(groupId, customMessage);
     };
 
     return this;

@@ -1,6 +1,7 @@
 module.exports = () => {
 
-    this.handleNewUser = (bot, users, groupId, message) => {
+    this.handleNewUser = (bot, users, message) => {
+        const groupId = message.chat.id;
         if (_isNewUser(users, message.from.id)) {
             const newUser = {
                 id: message.from.id,
