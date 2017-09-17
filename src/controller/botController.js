@@ -1,18 +1,22 @@
 /* External modules */
-const TelegramBot = require('node-telegram-bot-api');
 const moment = require('moment');
 
 /* Internal modules */
-const UserController = require('./UserController')();
-const Util = require('./Util')();
-
-/* Telegram Bot Token */
-const token = '338766426:AAFpjZIzU85KQhsujlDjXCC3DovPQIiVocE';
+const UserController = require('./userController')();
+const Util = require('../util/util')();
 
 module.exports = () => {
 
-    this.createBot = () => {
-        return new TelegramBot(token, {polling: true});
+    this.startBotListeners = (bot, users) => {
+        bot.on('text', message => {
+            UserController.handleNewUser(bot, users, message);
+            this.handleCommands(bot, users, message);
+        });
+        
+        bot.on('photo', message => {
+            UserController.handleNewUser(bot, users, message);
+            this.onNewPhoto(bot, users,message);
+        });
     };
 
     this.handleCommands = (bot, users, {text, from, chat}) => {

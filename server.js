@@ -1,15 +1,11 @@
-const BotController = require('./src/BotController')();
-const UserController = require('./src/UserController')();
+/* Config */
+const botConfig = require('./src/config/botConfig')();
 
-const bot = BotController.createBot();
+/* Controllers */
+const BotController = require('./src/controller/botController')();
+
+const bot = botConfig.factoryBot();
 let users = [];
 
-bot.on('text', message => {
-    UserController.handleNewUser(bot, users, message);
-    BotController.handleCommands(bot, users, message);
-});
-
-bot.on('photo', message => {
-    UserController.handleNewUser(bot, users, message);
-    BotController.onNewPhoto(bot, users,message);
-});
+/* Start bot event listeners */
+BotController.startBotListeners(bot, users);
