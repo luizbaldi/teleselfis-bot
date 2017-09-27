@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/luizbaldi/teleselfis-bot#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "moment": "^2.18.1",
     "node-telegram-bot-api": "^0.28.0"
   }
