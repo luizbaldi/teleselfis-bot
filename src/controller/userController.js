@@ -7,19 +7,25 @@ module.exports = () => {
         const groupId = message.chat.id;
         const currentUserId = message.from.id;
 
-        UserService.getUsers().then(users => {
-            if (_isNewUser(users, currentUserId)) {
-                const newUser = {
-                    id: message.from.id,
-                    name: message.from.first_name,
-                    username: message.from.username,
-                    posts: []
-                };
-                users.push(newUser);
-                UserService.updateUsers(users);
-                bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
-            }
+        const promise = new Promise((resolve, reject) => {
+            return UserService.getUsers().then(users => {
+                if (_isNewUser(users, currentUserId)) {
+                    const newUser = {
+                        id: message.from.id,
+                        name: message.from.first_name,
+                        username: message.from.username,
+                        posts: []
+                    };
+                    users.push(newUser);
+                    bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
+                    resolve(UserService.updateUsers(users));
+                } else {
+                    resolve();
+                }
+            });
         });
+
+        return promise;
     };
 
     this.getCurrentUser = (userId) => {

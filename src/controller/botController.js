@@ -9,17 +9,19 @@ module.exports = () => {
 
     this.startBotListeners = (bot) => {
         bot.on('text', message => {
-            UserController.handleNewUser(bot, message);
-            this.handleCommands(bot, message);
+            UserController.handleNewUser(bot, message).then(() => {
+                _handleCommands(bot, message);
+            });
         });
         
         bot.on('photo', message => {
-            UserController.handleNewUser(bot, message);
-            this.onNewPhoto(bot, message);
+            UserController.handleNewUser(bot, message).then(() => {
+                _onNewPhoto(bot, message);
+            });
         });
     };
 
-    this.handleCommands = (bot, {text, from, chat}) => {
+    const _handleCommands = (bot, {text, from, chat}) => {
         if (text.startsWith('/')) {
             const groupId = chat.id;
             UserController.getUsers().then(users => {
@@ -41,14 +43,14 @@ module.exports = () => {
                         bot.sendMessage(groupId, `Os top 3 membros do grupo das teleselfies são: ${Util.getTopThreeRank(users)}`);
                         break;
                     default:
-                        bot.sendMessage(groupId, `Mano, frago esse comando não :(`);
+                        bot.sendMessage(groupId, `Infelizmente eu não to ligado nesse comando que voce digitou :(`);
                         break;
                 }
             });
         }
     };
 
-    this.onNewPhoto = (bot, message) => {
+    const _onNewPhoto = (bot, message) => {
         const groupId = message.chat.id;
         UserController.getCurrentUser(message.from.id).then(currentUser => {
             const currentPhoto = {
