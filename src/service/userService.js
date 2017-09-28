@@ -2,7 +2,7 @@
 const axios = require('axios');
 
 /* MyJson URL */
-const baseUrl = 'https://api.myjson.com/bins/qvvy9';
+const baseUrl = 'https://api.myjson.com/bins/80g2p';
 
 module.exports = () => {
 

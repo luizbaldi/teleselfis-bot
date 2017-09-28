@@ -22,10 +22,11 @@ module.exports = () => {
     this.handleCommands = (bot, {text, from, chat}) => {
         if (text.startsWith('/')) {
             const groupId = chat.id;
-            UserController.getCurrentUser(from.id).then(currentUser => {
+            UserController.getUsers().then(users => {
+                const currentUser = users.find(user => user.id === from.id);
                 switch (text) {
                     case '/comandos':
-                        bot.sendMessage(groupId, `Comandos disponíveis: /semana, /total`);
+                        bot.sendMessage(groupId, `Comandos disponíveis: /semana, /total, /top3`);
                         break;
                     case '/semana':
                         bot.sendMessage(groupId, `${currentUser.name}, seus pontos da semana são: ${Util.getWeeklyPostsLength(currentUser)}`);
@@ -35,6 +36,9 @@ module.exports = () => {
                         break;
                     case '/ferd':
                         bot.sendMessage(groupId, `Esse comando é uma menção honrosa ao mano ferd que foi o cobaia oficial enquanto eu nascia.`);
+                        break;
+                    case '/top3':
+                        bot.sendMessage(groupId, `Os top 3 membros do grupo das teleselfies são: ${Util.getTopThreeRank(users)}`);
                         break;
                     default:
                         bot.sendMessage(groupId, `Mano, frago esse comando não :(`);
@@ -49,7 +53,7 @@ module.exports = () => {
         UserController.getCurrentUser(message.from.id).then(currentUser => {
             const currentPhoto = {
                 date: moment(),
-                data: message.photo
+                data: message.photo.shift()
             };
     
             let customMessage;

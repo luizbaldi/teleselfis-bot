@@ -34,6 +34,10 @@ module.exports = () => {
         });
     };
 
+    this.getUsers = () => {
+        return UserService.getUsers();
+    };
+
     const _isNewUser = (users, userId) => {
         return !users.some(user => userId === user.id);
     };
