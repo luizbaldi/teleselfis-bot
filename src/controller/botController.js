@@ -50,6 +50,9 @@ module.exports = () => {
                 case '/top3':
                     bot.sendMessage(groupId, `Os top 3 membros do grupo das teleselfies são: ${Util.getTopThreeRank(users)}`);
                     break;
+                case '/versao':
+                    bot.sendMessage(groupId, `Versão 1.0, ou seja ainda to na fralda mermão... Quando eu crescer quero ser um megazord :)`);    
+                    break;
                 default:
                     bot.sendMessage(groupId, `Infelizmente eu não to ligado nesse comando que voce digitou :(`);
                     break;
@@ -63,6 +66,8 @@ module.exports = () => {
                 bot.sendMessage(groupId, `Maconha? Tô fora, pego meus circuitos e vou embora!`);
             } else if (text.match('cremos')) {
                 bot.sendMessage(groupId, `Atingir o mais alto nível de cremosidade é um dos sentidos da vida.`);
+            } else if (text.match('tabaco')) {
+                bot.sendMessage(groupId, `Tabaco? Tabaco tô dentro, pego meu borão virtual e acendo`);
             }
         }
     };
