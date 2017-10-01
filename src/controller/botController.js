@@ -8,7 +8,7 @@ const Util = require('../helper/util')();
 module.exports = () => {
 
     this.startBotListeners = (bot) => {
-        console.log('Message received.');
+        console.log('Starting bot event listeners...');
         bot.on('text', message => {
             UserController.handleNewUser(bot, message).then(() => {
                 _onText(bot, message);
