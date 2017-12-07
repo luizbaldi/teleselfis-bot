@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node src/server.js",
     "test": "mocha test/**/*.spec.js --require babel-register",
     "test:watch": "mocha test/**/*.spec.js --require babel-register --watch"
   },

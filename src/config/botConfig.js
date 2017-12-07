@@ -1,5 +1,5 @@
 /* External modules */
-const TelegramBot = require('node-telegram-bot-api');
+import TelegramBot from 'node-telegram-bot-api';
 
 /* Telegram Bot Token */
 // const token = '338766426:AAFpjZIzU85KQhsujlDjXCC3DovPQIiVocE';
@@ -7,14 +7,11 @@ const TelegramBot = require('node-telegram-bot-api');
 /* Test bot token */
 const token = '473533364:AAGwn6f0jwqb58s9XBQuwcgLL6_a-FjcHeU';
 
-module.exports = () => {
-
-    this.factoryBot = () => {
-        const botParams = {
-            polling: true
-        };
-        return new TelegramBot(token, botParams);
+const factoryBot = () => {
+    const botParams = {
+        polling: true
     };
-
-    return this;
+    return new TelegramBot(token, botParams);
 };
+
+export { factoryBot }

@@ -1,5 +1,5 @@
-const express = require('express');
-const packageInfo = require('../../package.json');
+import express from 'express';
+import packageInfo from'../../package.json';
 
 const app = express();
 

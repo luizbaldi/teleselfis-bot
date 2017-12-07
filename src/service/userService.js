@@ -1,5 +1,5 @@
 /* External modules */
-const axios = require('axios');
+import axios from 'axios';
 
 /* MyJson URL */
 const baseUrl = 'https://api.myjson.com/bins/6jjr5';
@@ -7,24 +7,21 @@ const baseUrl = 'https://api.myjson.com/bins/6jjr5';
 /* MyJson URL (test) */
 // const baseUrl = 'https://api.myjson.com/bins/k9nn1';
 
-module.exports = () => {
+const getUsers = () => {
+    return axios.get(baseUrl)
+        .then(({data}) => data)
+        .catch(err => err);
+};
 
-    this.getUsers = () => {
-        return axios.get(baseUrl)
-            .then(({data}) => data)
-            .catch(err => err);
-    };
+const updateUsers = (users) => {
+    axios.put(baseUrl, users);
+};
 
-    this.updateUsers = (users) => {
-        axios.put(baseUrl, users);
-    };
+const getCurrentUser = (userId) => {
+    return axios.get(baseUrl)
+        .then(({data}) => data.find(user => user.id === userId))
+        .catch(err => err);
+};
 
-    this.getCurrentUser = (userId) => {
-        return axios.get(baseUrl)
-            .then(({data}) => data.find(user => user.id === userId))
-            .catch(err => err);
-    };
 
-    return this;
-}
-
+export { getUsers, updateUsers, getCurrentUser }
