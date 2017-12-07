@@ -9,4 +9,3 @@ const bot = botConfig.factoryBot();
 
 /* Start bot event listeners */
 BotController.startBotListeners(bot);
-require('./src/config/serverConfig');

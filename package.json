@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha test/**/*.spec.js --require babel-register",
+    "test:watch": "mocha test/**/*.spec.js --require babel-register --watch"
   },
   "repository": {
     "type": "git",
@@ -26,5 +28,11 @@
     "express": "^4.16.1",
     "moment": "^2.18.1",
     "node-telegram-bot-api": "^0.28.0"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
   }
 }
