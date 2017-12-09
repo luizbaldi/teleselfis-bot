@@ -7,11 +7,8 @@ import TelegramBot from 'node-telegram-bot-api';
 /* Test bot token */
 const token = '473533364:AAGwn6f0jwqb58s9XBQuwcgLL6_a-FjcHeU';
 
-const factoryBot = () => {
-    const botParams = {
-        polling: true
-    };
-    return new TelegramBot(token, botParams);
-};
+const factoryBot = () => new TelegramBot(token, {
+  polling: true
+});
 
 export { factoryBot }

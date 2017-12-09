@@ -1,5 +1,5 @@
 import express from 'express';
-import packageInfo from'../../package.json';
+import packageInfo from '../../package.json';
 
 const app = express();
 
