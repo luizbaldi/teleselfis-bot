@@ -1,9 +1,9 @@
-/* External modules */
-import moment from 'moment';
-
 const getWeeklyPostsLength = (currentUser) => {
-  const currentWeekDay = moment().day();
-  const weeklyPosts = currentUser.posts.filter(post => moment(post.date).day() <= currentWeekDay);
+  const currentDate = new Date();
+  const currentWeek = new Date(new Date().setDate(currentDate.getDate() - currentDate.getDay()));
+  const weeklyPosts = currentUser.posts
+    .filter(post => new Date(post.date) >= currentWeek)
+    .filter(post => new Date(post.date).getDay() <= currentDate.getDay());
   return weeklyPosts.length;
 };
 

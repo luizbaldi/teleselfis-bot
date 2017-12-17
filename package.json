@@ -27,7 +27,6 @@
     "axios": "^0.16.2",
     "express": "^4.16.1",
     "firebase": "^4.8.0",
-    "moment": "^2.18.1",
     "node-telegram-bot-api": "^0.28.0"
   },
   "devDependencies": {

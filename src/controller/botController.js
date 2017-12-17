@@ -1,6 +1,3 @@
-/* External modules */
-import moment from 'moment';
-
 /* Internal modules */
 import { handleNewUser, updateCurrentUser } from './userController';
 import { getCurrentUser, getUsers } from '../service/userService';
@@ -66,7 +63,7 @@ const _onNewPhoto = (bot, message) => {
   const groupId = message.chat.id;
   getCurrentUser(message.from.id).then(currentUser => {
     const currentPhoto = {
-      date: moment(),
+      date: new Date(),
       data: message.photo.shift()
     };
 
