@@ -1,5 +1,5 @@
 /* Internal modules */
-import { insertNewUser } from '../service/userFirebase';
+import { updateFirebaseUser } from '../service/userFirebase';
 import { SHOW_MESSAGES } from '../helper/util';
 
 const handleNewUser = (users, bot, message) => {
@@ -17,7 +17,7 @@ const handleNewUser = (users, bot, message) => {
       const groupId = message.chat.id;
       bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
     }
-    insertNewUser(newUser);
+    updateFirebaseUser(newUser);
   }
 };
 

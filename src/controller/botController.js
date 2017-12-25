@@ -18,7 +18,7 @@ const startBotListeners = (bot) => {
     });
 
     bot.on('photo', message => {
-      handleNewUser(bot, message);
+      handleNewUser(users, bot, message);
       _onNewPhoto(bot, message);
     });
   });
@@ -65,12 +65,16 @@ const _handleMessages = (bot, groupId, text) => {
 const _onNewPhoto = (bot, message) => {
   const groupId = message.chat.id;
   const currentUser = users[message.from.id];
+  const photoId = message.photo.shift().file_id;
   const currentPhoto = {
-    id: message.photo.shift().file_id,
     date: new Date()
   };
 
-  currentUser.posts[currentPhoto.id];
+  if (!currentUser.posts) {
+    currentUser.posts = {};
+  }
+
+  currentUser.posts[photoId] = currentPhoto;
   updateFirebaseUser(currentUser);
   if (SHOW_MESSAGES) {
     let customMessage;
@@ -83,7 +87,7 @@ const _onNewPhoto = (bot, message) => {
 const _onText = (bot, { text, from, chat }) => {
   const groupId = chat.id;
   if (text.startsWith('/')) {
-    const user = users[userId];
+    const user = users[from.id];
     handleCommands(bot, groupId, text, user);
   } else {
     _handleMessages(bot, groupId, text);

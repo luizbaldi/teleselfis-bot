@@ -3,10 +3,9 @@ import { getUserRef, getUsersRef } from '../helper/firebase';
 
 const getInitialData = () => {
   const promise = new Promise((resolve, reject) => {
-    console.log('preparing promise');
     getUsersRef().on('value', snapshot => {
       const users = snapshot.val() ? snapshot.val() : {};
-      console.log('loading users state', users);
+      console.log('Users current state', users);
       resolve(users);
     });
   });
@@ -15,12 +14,8 @@ const getInitialData = () => {
 };
 
 const updateFirebaseUser = (user) => {
-  getUserRef(user.id).set(user);
-};
-
-const insertNewUser = (user) => {
-  console.log('inserting new user...');
   getUserRef(user.id).update(user);
 };
 
-export { getInitialData, insertNewUser }
+
+export { getInitialData, updateFirebaseUser }
