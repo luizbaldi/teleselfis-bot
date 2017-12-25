@@ -1,3 +1,5 @@
+const SHOW_MESSAGES = false;
+
 const getWeeklyPostsLength = (currentUser) => {
   const currentDate = new Date();
   const currentWeek = new Date(new Date().setDate(currentDate.getDate() - currentDate.getDay()));
@@ -29,4 +31,4 @@ const _getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage }
+export { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage, SHOW_MESSAGES }

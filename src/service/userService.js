@@ -1,9 +1,6 @@
 /* External modules */
 import axios from 'axios';
 
-/* Internal modules */
-import firebase from '../helper/firebase';
-
 /* MyJson URL */
 const baseUrl = 'https://api.myjson.com/bins/6jjr5';
 

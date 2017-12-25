@@ -8,8 +8,9 @@ const config = {
   storageBucket: "telegram-bot-manager.appspot.com",
   messagingSenderId: "14311802500"
 };
-
 const app = firebase.initializeApp(config);
-const ref = app.database().ref();
 
-export default ref;
+const getUsersRef = () => app.database().ref().child('users');
+const getUserRef = (userId) => app.database().ref(`users/${userId}`);
+
+export { getUsersRef, getUserRef }

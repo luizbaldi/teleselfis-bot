@@ -1,50 +1,53 @@
 /* Internal modules */
-import { handleNewUser, updateCurrentUser } from './userController';
-import { getCurrentUser, getUsers } from '../service/userService';
-import { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage } from '../helper/util';
+import { handleNewUser } from './userController';
+import { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage, SHOW_MESSAGES } from '../helper/util';
+import { getInitialData, updateFirebaseUser } from '../service/userFirebase';
+import pkg from '../../package.json';
+
+let users;
 
 const startBotListeners = (bot) => {
   console.log('Starting bot event listeners...');
-  bot.on('text', message => {
-    handleNewUser(bot, message).then(() => {
+
+  getInitialData().then(data => {
+    users = data;
+
+    bot.on('text', message => {
+      handleNewUser(users, bot, message);
       _onText(bot, message);
     });
-  });
 
-  bot.on('photo', message => {
-    handleNewUser(bot, message).then(() => {
+    bot.on('photo', message => {
+      handleNewUser(bot, message);
       _onNewPhoto(bot, message);
     });
   });
 };
 
-const _handleCommands = (bot, groupId, text, userId) => {
-  getUsers().then(users => {
-    const currentUser = users.find(user => user.id === userId);
-    switch (text) {
-      case '/comandos':
-        bot.sendMessage(groupId, `Comandos disponíveis: /semana, /total, /top3`);
-        break;
-      case '/semana':
-        bot.sendMessage(groupId, `${currentUser.name}, seus pontos da semana são: ${getWeeklyPostsLength(currentUser)}`);
-        break;
-      case '/total':
-        bot.sendMessage(groupId, `${currentUser.name}, seus pontos totais são: ${currentUser.posts.length}`);
-        break;
-      case '/ferd':
-        bot.sendMessage(groupId, `Esse comando é uma menção honrosa ao mano ferd que foi o cobaia oficial enquanto eu nascia.`);
-        break;
-      case '/top3':
-        bot.sendMessage(groupId, `Os top 3 membros do grupo das teleselfies são: ${getTopThreeRank(users)}`);
-        break;
-      case '/versao':
-        bot.sendMessage(groupId, `Versão 1.0, ou seja ainda to na fralda mermão... Quando eu crescer quero ser um megazord :)`);
-        break;
-      default:
-        bot.sendMessage(groupId, `Infelizmente eu não to ligado nesse comando que voce digitou :(`);
-        break;
-    }
-  });
+const handleCommands = (bot, groupId, text, user) => {
+  switch (text) {
+    case '/comandos':
+      bot.sendMessage(groupId, `Comandos disponíveis: /semana, /total, /top3`);
+      break;
+    case '/semana':
+      bot.sendMessage(groupId, `${user.name}, seus pontos da semana são: ${getWeeklyPostsLength(user)}`);
+      break;
+    case '/total':
+      bot.sendMessage(groupId, `${user.name}, seus pontos totais são: ${user.posts.length}`);
+      break;
+    case '/ferd':
+      bot.sendMessage(groupId, `Esse comando é uma menção honrosa ao mano ferd que foi o cobaia oficial enquanto eu nascia.`);
+      break;
+    case '/top3':
+      bot.sendMessage(groupId, `Os top 3 membros do grupo das teleselfies são: ${getTopThreeRank(users)}`);
+      break;
+    case '/versao':
+      bot.sendMessage(groupId, `Versão ${pkg.version}`);
+      break;
+    default:
+      bot.sendMessage(groupId, `Infelizmente eu não to ligado nesse comando que voce digitou :(`);
+      break;
+  }
 };
 
 const _handleMessages = (bot, groupId, text) => {
@@ -61,29 +64,30 @@ const _handleMessages = (bot, groupId, text) => {
 
 const _onNewPhoto = (bot, message) => {
   const groupId = message.chat.id;
-  getCurrentUser(message.from.id).then(currentUser => {
-    const currentPhoto = {
-      date: new Date(),
-      data: message.photo.shift()
-    };
+  const currentUser = users[message.from.id];
+  const currentPhoto = {
+    id: message.photo.shift().file_id,
+    date: new Date()
+  };
 
+  currentUser.posts[currentPhoto.id];
+  updateFirebaseUser(currentUser);
+  if (SHOW_MESSAGES) {
     let customMessage;
-    currentUser.posts.push(currentPhoto);
-    updateCurrentUser(currentUser);
     customMessage = `${currentUser.name}, sua imagem foi computada com sucesso :)`;
     bot.sendMessage(groupId, customMessage);
-  });
+  }
 };
 
 
 const _onText = (bot, { text, from, chat }) => {
   const groupId = chat.id;
-  const userId = from.id;
   if (text.startsWith('/')) {
-    _handleCommands(bot, groupId, text, userId);
+    const user = users[userId];
+    handleCommands(bot, groupId, text, user);
   } else {
     _handleMessages(bot, groupId, text);
   }
 };
 
-export { startBotListeners }
+export { startBotListeners, handleCommands }

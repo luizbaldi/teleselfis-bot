@@ -1,41 +1,24 @@
 /* Internal modules */
-import { updateUsers, getUsers } from '../service/userService';
+import { insertNewUser } from '../service/userFirebase';
+import { SHOW_MESSAGES } from '../helper/util';
 
-const handleNewUser = (bot, message) => {
-  const groupId = message.chat.id;
-  const currentUserId = message.from.id;
+const handleNewUser = (users, bot, message) => {
+  const userId = message.from.id;
 
-  const promise = new Promise((resolve, reject) => {
-    return getUsers().then(users => {
-      if (_isNewUser(users, currentUserId)) {
-        const newUser = {
-          id: message.from.id,
-          name: message.from.first_name,
-          username: message.from.username,
-          posts: []
-        };
-        users.push(newUser);
-        bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
-        resolve(updateUsers(users));
-      } else {
-        resolve();
-      }
-    });
-  });
-
-  return promise;
+  if (!users[userId]) {
+    const newUser = {
+      id: userId,
+      name: message.from.first_name,
+      username: message.from.username,
+      posts: {}
+    };
+    users[userId] = newUser;
+    if (SHOW_MESSAGES) {
+      const groupId = message.chat.id;
+      bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
+    }
+    insertNewUser(newUser);
+  }
 };
 
-const updateCurrentUser = (user) => {
-  getUsers().then(users => {
-    const currentUserIndex = users.findIndex(currentUser => currentUser.id === user.id);
-    users[currentUserIndex] = user;
-    updateUsers(users);
-  });
-};
-
-const _isNewUser = (users, userId) => {
-  return !users.some(user => userId === user.id);
-};
-
-export { handleNewUser, updateCurrentUser }
+export { handleNewUser }
