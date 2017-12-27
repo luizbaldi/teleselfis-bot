@@ -7,45 +7,26 @@ describe('Util', () => {
     user = {
       "id": 159677886,
       "name": "Baldi",
-      "username": "LuizBaldi",
-      "posts": [
-        {
-          "date": "2017-12-16T23:28:05.995Z",
-          "data": {
-            "file_id": "AgADAQAD6KcxGzDDcEaxGigGYncC_3Uy9y8ABHhtEUpMXqu26C4AAgI",
-            "file_size": 1471,
-            "width": 51,
-            "height": 90
-          }
+      "posts": {
+        "AgADAQAD1KcxG1hlGUY-IMvgQt7rxeZeDDAABIxes0EvYdx3FjsAAgI": {
+          "date": "2017-12-27T01:22:51.122Z"
         },
-        {
-          "date": "2017-12-18T01:00:13.638Z",
-          "data": {
-            "file_id": "AgADAQAD96cxGzDDcEal-E4jm1Xhm3IlAzAABMjpQjMTCRD-Vh8AAgI",
-            "file_size": 1221,
-            "width": 51,
-            "height": 90
-          }
+        "AgADAQADi6gxGxcCEUaU__drWHLenEhrDDAABBJV749VaV6J-TkAAgI": {
+          "date": "2017-12-25T22:01:30.310Z"
         },
-        {
-          "date": "2017-12-19T02:23:14.644Z",
-          "data": {
-            "file_id": "AgADAQADAagxGzDDcEYTHCypmZtbj_sU9y8ABGZPhl5Ag6od4OQAAgI",
-            "file_size": 1162,
-            "width": 51,
-            "height": 90
-          }
+        "AgADAQADiagxGxcCEUbts7qBxjFk3Dgj9y8ABM-vxvnXFQGiJIwBAAEC": {
+          "date": "2017-12-25T22:02:43.654Z"
         }
-      ]
+      },
+      "username": "LuizBaldi"
     };
-    user.posts.forEach(post => post.date = new Date());
+    Object.values(user.posts).forEach(post => post.date = new Date());
   });
 
   context('getWeeklyPostsLength method', () => {
     it('should return an integer', () => {
-      expect(getWeeklyPostsLength(user)).to.be.an('number');
+      expect(getWeeklyPostsLength(user)).to.be.a('number');
     });
-
 
     it('should get the amount of posts from the same week', () => {
       /* Set posts with current week */
@@ -56,7 +37,7 @@ describe('Util', () => {
       /* Set first post to be one week less */
       const date = new Date();
       date.setDate(date.getDate() - 7);
-      user.posts[0].date = date;
+      user.posts[Object.keys(user.posts)[0]].date = date;
 
       expect(getWeeklyPostsLength(user)).to.be.equal(2);
     });

@@ -33,7 +33,7 @@ const handleCommands = (bot, groupId, text, user) => {
       bot.sendMessage(groupId, `${user.name}, seus pontos da semana são: ${getWeeklyPostsLength(user)}`);
       break;
     case '/total':
-      bot.sendMessage(groupId, `${user.name}, seus pontos totais são: ${user.posts.length}`);
+      bot.sendMessage(groupId, `${user.name}, seus pontos totais são: ${Object.keys(user.posts).length}`);
       break;
     case '/ferd':
       bot.sendMessage(groupId, `Esse comando é uma menção honrosa ao mano ferd que foi o cobaia oficial enquanto eu nascia.`);
