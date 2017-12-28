@@ -13,34 +13,13 @@ const startBotListeners = (bot) => {
     users = data;
 
     bot.on('text', message => {
-      handleNewUser(users, bot, message);
       _onText(bot, message);
     });
 
     bot.on('photo', message => {
-      handleNewUser(users, bot, message);
       _onNewPhoto(bot, message);
     });
   });
-};
-
-const handleNewUser = (users, bot, message) => {
-  const userId = message.from.id;
-
-  if (!users[userId]) {
-    const newUser = {
-      id: userId,
-      name: message.from.first_name,
-      username: message.from.username,
-      posts: {}
-    };
-    users[userId] = newUser;
-    if (SHOW_MESSAGES) {
-      const groupId = message.chat.id;
-      bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
-    }
-    updateFirebaseUser(newUser);
-  }
 };
 
 const handleCommands = (bot, groupId, text, user) => {
@@ -89,10 +68,6 @@ const _onNewPhoto = (bot, message) => {
     date: new Date()
   };
 
-  if (!currentUser.posts) {
-    currentUser.posts = {};
-  }
-
   currentUser.posts[photoId] = currentPhoto;
   updateFirebaseUser(currentUser);
   if (SHOW_MESSAGES) {
@@ -102,15 +77,35 @@ const _onNewPhoto = (bot, message) => {
   }
 };
 
-
 const _onText = (bot, { text, from, chat }) => {
   const groupId = chat.id;
   if (text.startsWith('/')) {
     const user = users[from.id];
-    handleCommands(bot, groupId, text, user);
+
+    if (text === '/cadastro') {
+      if (!user) {
+        handleNewUser(bot, groupId, from.id, from.first_name);
+      } else {
+        bot.sendMessage(groupId, 'Ops, parece que você já está cadastrado no meu banco de dados');
+      }
+    } else if (user) {
+      handleCommands(bot, groupId, text, user);
+    } else {
+      bot.sendMessage(groupId, 'Você precisa estar cadastrado para ter acesso aos comandos, digite /cadastro e seja feliz :)');
+    }
   } else {
     handleMessages(bot, groupId, text);
   }
+};
+
+const handleNewUser = (bot, groupId, userId, firstName) => {
+  const newUser = {
+    id: userId,
+    name: firstName,
+    posts: {}
+  };
+  updateFirebaseUser(newUser);
+  bot.sendMessage(groupId, `Nosso querido(a) ${newUser.name} agora faz parte do bonde :)`);
 };
 
 export { startBotListeners, handleCommands }
