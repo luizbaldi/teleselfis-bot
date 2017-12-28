@@ -1,27 +1,19 @@
-/* External modules */
-import axios from 'axios';
+/* Internal modules */
+import { getUserRef, getUsersRef } from '../helper/firebase';
 
-/* MyJson URL */
-const baseUrl = 'https://api.myjson.com/bins/6jjr5';
+const getInitialData = () => {
+  const promise = new Promise((resolve, reject) => {
+    getUsersRef().on('value', snapshot => {
+      const users = snapshot.val() ? snapshot.val() : {};
+      resolve(users);
+    });
+  });
 
-/* MyJson URL (test) */
-// const baseUrl = 'https://api.myjson.com/bins/k9nn1';
-
-const getUsers = () => {
-  return axios.get(baseUrl)
-    .then(({ data }) => data)
-    .catch(err => err);
+  return promise;
 };
 
-const updateUsers = (users) => {
-  axios.put(baseUrl, users);
+const updateFirebaseUser = (user) => {
+  getUserRef(user.id).update(user);
 };
 
-const getCurrentUser = (userId) => {
-  return axios.get(baseUrl)
-    .then(({ data }) => data.find(user => user.id === userId))
-    .catch(err => err);
-};
-
-
-export { getUsers, updateUsers, getCurrentUser }
+export { getInitialData, updateFirebaseUser }

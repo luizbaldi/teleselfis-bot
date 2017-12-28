@@ -1,9 +1,9 @@
 /* Internal modules */
-import { handleNewUser } from './userController';
 import { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage, SHOW_MESSAGES } from '../helper/util';
-import { getInitialData, updateFirebaseUser } from '../service/userFirebase';
+import { getInitialData, updateFirebaseUser } from '../service/userService';
 import pkg from '../../package.json';
 
+/* Global users state */
 let users;
 
 const startBotListeners = (bot) => {
@@ -22,6 +22,25 @@ const startBotListeners = (bot) => {
       _onNewPhoto(bot, message);
     });
   });
+};
+
+const handleNewUser = (users, bot, message) => {
+  const userId = message.from.id;
+
+  if (!users[userId]) {
+    const newUser = {
+      id: userId,
+      name: message.from.first_name,
+      username: message.from.username,
+      posts: {}
+    };
+    users[userId] = newUser;
+    if (SHOW_MESSAGES) {
+      const groupId = message.chat.id;
+      bot.sendMessage(groupId, `Seja bem vindo(a) ao grupo, ${newUser.name} :)`);
+    }
+    updateFirebaseUser(newUser);
+  }
 };
 
 const handleCommands = (bot, groupId, text, user) => {
@@ -50,7 +69,7 @@ const handleCommands = (bot, groupId, text, user) => {
   }
 };
 
-const _handleMessages = (bot, groupId, text) => {
+const handleMessages = (bot, groupId, text) => {
   if (hasToSendMessage()) {
     if (text.match('maconha')) {
       bot.sendMessage(groupId, `Maconha? Tô fora, pego meus circuitos e vou embora!`);
@@ -90,7 +109,7 @@ const _onText = (bot, { text, from, chat }) => {
     const user = users[from.id];
     handleCommands(bot, groupId, text, user);
   } else {
-    _handleMessages(bot, groupId, text);
+    handleMessages(bot, groupId, text);
   }
 };
 
