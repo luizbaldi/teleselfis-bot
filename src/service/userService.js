@@ -1,13 +1,18 @@
 /* Internal modules */
 import { getUserRef, getUsersRef } from '../helper/firebase';
+import { users, setUsers } from '../helper/userStore';
 
 const getInitialData = () => {
   const promise = new Promise((resolve, reject) => {
     getUsersRef().on('value', snapshot => {
-      let users = snapshot.val() ? snapshot.val() : {};
-      users = handleDefaultPosts(users);
-      console.log('On users change: ', users);
-      resolve(users);
+      let usersSnapshot = snapshot.val() ? snapshot.val() : {};
+      usersSnapshot = handleDefaultPosts(usersSnapshot);
+      console.log('On users change: ', usersSnapshot);
+
+      /* Updates user store */
+      setUsers(usersSnapshot);
+
+      resolve(usersSnapshot);
     });
   });
 

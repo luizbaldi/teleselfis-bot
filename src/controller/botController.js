@@ -1,16 +1,15 @@
 /* Internal modules */
 import { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage, SHOW_MESSAGES } from '../helper/util';
 import { getInitialData, updateFirebaseUser } from '../service/userService';
+import { users, setUsers } from '../helper/userStore';
 import pkg from '../../package.json';
-
-/* Global users state */
-let users;
 
 const startBotListeners = (bot) => {
   console.log('Starting bot event listeners...');
 
   getInitialData().then(data => {
-    users = data;
+    setUsers(data);
+    console.log('users', users);
 
     bot.on('text', message => {
       _onText(bot, message);

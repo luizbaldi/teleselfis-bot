@@ -1,5 +1,6 @@
 /* Config */
 import { factoryBot } from './config/botConfig';
+import { factoryUsers } from './helper/userStore';
 
 /* Controllers */
 import { startBotListeners } from './controller/botController';
