@@ -1,5 +1,5 @@
-let users = {};
+let users = {}
 
-const setUsers = (newUsers) => users = newUsers;
+const setUsers = (newUsers) => users = newUsers
 
-export { users, setUsers };
+module.exports = { users, setUsers }

@@ -1,12 +1,11 @@
 /* Config */
-import { factoryBot } from './config/botConfig';
-import { factoryUsers } from './helper/userStore';
+const factoryBot = require('./config/botConfig')
 
 /* Controllers */
-import { startBotListeners } from './controller/botController';
+const { startBotListeners } = require('./controller/botController')
 
 /* Bot and server instances */
-const bot = factoryBot();
+const bot = factoryBot()
 
 /* Start bot event listeners */
-startBotListeners(bot);
+startBotListeners(bot)

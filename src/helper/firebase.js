@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+const firebase = require('firebase')
 
 const config = {
   apiKey: "AIzaSyDqrcFxKkLJHQyHwxxW5b-9wM6LBwsdtwk",
@@ -13,4 +13,4 @@ const app = firebase.initializeApp(config);
 const getUsersRef = () => app.database().ref().child('users');
 const getUserRef = (userId) => app.database().ref(`users/${userId}`);
 
-export { getUsersRef, getUserRef }
+module.exports = { getUsersRef, getUserRef }

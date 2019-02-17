@@ -1,8 +1,8 @@
-import { expect } from 'chai';
-import { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage } from '../../src/helper/util';
+const { expect } = require('chai')
+const { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage } = require('../../src/helper/util')
 
 describe('Util', () => {
-  let user;
+  let user
   beforeEach(() => {
     user = {
       "id": 159677886,
@@ -19,33 +19,33 @@ describe('Util', () => {
         }
       },
       "username": "LuizBaldi"
-    };
-    Object.values(user.posts).forEach(post => post.date = new Date());
-  });
+    }
+    Object.values(user.posts).forEach(post => post.date = new Date())
+  })
 
   context('getWeeklyPostsLength method', () => {
     it('should return an integer', () => {
-      expect(getWeeklyPostsLength(user)).to.be.a('number');
-    });
+      expect(getWeeklyPostsLength(user)).to.be.a('number')
+    })
 
     it('should get the amount of posts from the same week', () => {
       /* Set posts with current week */
-      expect(getWeeklyPostsLength(user)).to.be.equal(3);
-    });
+      expect(getWeeklyPostsLength(user)).to.be.equal(3)
+    })
 
     it('should get correct amount from last week posts', () => {
       /* Set first post to be one week less */
-      const date = new Date();
-      date.setDate(date.getDate() - 7);
-      user.posts[Object.keys(user.posts)[0]].date = date;
+      const date = new Date()
+      date.setDate(date.getDate() - 7)
+      user.posts[Object.keys(user.posts)[0]].date = date
 
-      expect(getWeeklyPostsLength(user)).to.be.equal(2);
-    });
-  });
+      expect(getWeeklyPostsLength(user)).to.be.equal(2)
+    })
+  })
 
   context('hasToSendMessage method', () => {
     it('should return a boolean', () => {
-      expect(hasToSendMessage()).to.be.a('boolean');
-    });
-  });
-});
+      expect(hasToSendMessage()).to.be.a('boolean')
+    })
+  })
+})
