@@ -61,7 +61,7 @@ const handleMessages = (bot, groupId, text) => {
 
 const _onNewPhoto = (bot, message) => {
   const groupId = message.chat.id
-  const currentUser = users[message.from.id]
+  const currentUser = global.users[message.from.id]
   const photoId = message.photo.shift().file_id
   const currentPhoto = {
     date: new Date()
@@ -79,7 +79,7 @@ const _onNewPhoto = (bot, message) => {
 const _onText = (bot, { text, from, chat }) => {
   const groupId = chat.id
   if (text.startsWith('/')) {
-    const user = users[from.id]
+    const user = global.users[from.id]
 
     if (text === '/cadastro') {
       if (!user) {

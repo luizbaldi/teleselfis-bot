@@ -1,5 +1,7 @@
-let users = {}
+global.users = {}
 
-const setUsers = (newUsers) => users = newUsers
+const setUsers = (newUsers) => {
+  global.users = newUsers
+}
 
-module.exports = { users, setUsers }
+module.exports = { setUsers }
