@@ -12,11 +12,11 @@ const startBotListeners = (bot) => {
     console.log('users', users)
 
     bot.on('text', message => {
-      _onText(bot, message)
+      onText(bot, message)
     })
 
     bot.on('photo', message => {
-      _onNewPhoto(bot, message)
+      onNewPhoto(bot, message)
     })
   })
 }
@@ -59,39 +59,31 @@ const handleMessages = (bot, groupId, text) => {
   }
 }
 
-const _onNewPhoto = (bot, message) => {
+const onNewPhoto = (bot, message) => {
   const groupId = message.chat.id
   const currentUser = global.users[message.from.id]
   const photoId = message.photo.shift().file_id
-  const currentPhoto = {
-    date: new Date()
-  }
+  const currentPhoto = { date: new Date() }
 
   currentUser.posts[photoId] = currentPhoto
   updateFirebaseUser(currentUser)
+
   if (SHOW_MESSAGES) {
-    let customMessage
-    customMessage = `${currentUser.name}, sua imagem foi computada com sucesso :)`
-    bot.sendMessage(groupId, customMessage)
+    const message = `${currentUser.name}, sua imagem foi computada com sucesso :)`
+    bot.sendMessage(groupId, message)
   }
 }
 
-const _onText = (bot, { text, from, chat }) => {
+const onText = (bot, { text, from, chat }) => {
   const groupId = chat.id
   if (text.startsWith('/')) {
     const user = global.users[from.id]
 
-    if (text === '/cadastro') {
-      if (!user) {
-        handleNewUser(bot, groupId, from.id, from.first_name)
-      } else {
-        bot.sendMessage(groupId, 'Ops, parece que você já está cadastrado no meu banco de dados')
-      }
-    } else if (user) {
-      handleCommands(bot, groupId, text, user)
-    } else {
-      bot.sendMessage(groupId, 'Você precisa estar cadastrado para ter acesso aos comandos, digite /cadastro e seja feliz :)')
+    if (!user) {
+      handleNewUser(bot, groupId, from.id, from.first_name)
     }
+
+    handleCommands(bot, groupId, text, user)
   } else {
     handleMessages(bot, groupId, text)
   }
@@ -103,8 +95,10 @@ const handleNewUser = (bot, groupId, userId, firstName) => {
     name: firstName,
     posts: {}
   }
+  const message = `Nosso querido(a) ${newUser.name} foi cadastrado no banco de dados e agora faz parte do bonde :)`
+
   updateFirebaseUser(newUser)
-  bot.sendMessage(groupId, `Nosso querido(a) ${newUser.name} agora faz parte do bonde :)`)
+  bot.sendMessage(groupId, message)
 }
 
 module.exports = { startBotListeners }
