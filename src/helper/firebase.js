@@ -1,7 +1,8 @@
 const firebase = require('firebase')
+const { potatoe } = require('./firebaseConfig.js')
 
 const config = {
-  apiKey: "AIzaSyDqrcFxKkLJHQyHwxxW5b-9wM6LBwsdtwk",
+  apiKey: potatoe,
   authDomain: "telegram-bot-manager.firebaseapp.com",
   databaseURL: "https://telegram-bot-manager.firebaseio.com",
   projectId: "telegram-bot-manager",
