@@ -79,3 +79,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Telegram Bot Token
+src/config/botTokens.js
