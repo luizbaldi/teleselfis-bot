@@ -82,3 +82,6 @@ typings/
 
 # Telegram Bot Token
 src/config/botTokens.js
+
+# Firebase API key
+src/helper/firebaseToken.js
