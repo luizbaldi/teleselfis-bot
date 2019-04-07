@@ -1,8 +1,8 @@
 /* External modules */
 const TelegramBot = require('node-telegram-bot-api')
-const { token:potatoe } = require('./botTokens.js')
+const token = require('./botTokens.js')
 
-const factoryBot = () => new TelegramBot(potatoe, {
+const factoryBot = () => new TelegramBot(token, {
   polling: true
 })
 
