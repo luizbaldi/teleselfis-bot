@@ -79,3 +79,9 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# Telegram Bot Token
+src/config/botTokens.js
+
+# Firebase API key
+src/helper/firebaseToken.js

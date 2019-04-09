@@ -1,7 +1,8 @@
 const firebase = require('firebase')
+const apiKey = require('./firebaseToken.js')
 
 const config = {
-  apiKey: "AIzaSyDqrcFxKkLJHQyHwxxW5b-9wM6LBwsdtwk",
+  apiKey,
   authDomain: "telegram-bot-manager.firebaseapp.com",
   databaseURL: "https://telegram-bot-manager.firebaseio.com",
   projectId: "telegram-bot-manager",
