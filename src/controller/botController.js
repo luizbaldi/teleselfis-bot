@@ -1,10 +1,14 @@
-/* Internal modules */
-const { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage, SHOW_MESSAGES } = require('../helper/util')
+const {
+  getWeeklyPostsLength,
+  getTopThreeRank,
+  hasToSendMessage,
+  SHOW_MESSAGES
+} = require('../helper/util')
 const { getInitialData, updateFirebaseUser } = require('../service/userService')
 const { users, setUsers } = require('../helper/userStore')
 const pkg = require('../../package.json')
 
-const startBotListeners = (bot) => {
+const startBotListeners = bot => {
   console.log('Starting bot event listeners...')
 
   getInitialData().then(data => {
@@ -27,22 +31,41 @@ const handleCommands = (bot, groupId, text, user) => {
       bot.sendMessage(groupId, `Comandos disponíveis: /semana, /total, /top3`)
       break
     case '/semana':
-      bot.sendMessage(groupId, `${user.name}, seus pontos da semana são: ${getWeeklyPostsLength(user)}`)
+      bot.sendMessage(
+        groupId,
+        `${user.name}, seus pontos da semana são: ${getWeeklyPostsLength(user)}`
+      )
       break
     case '/total':
-      bot.sendMessage(groupId, `${user.name}, seus pontos totais são: ${Object.keys(user.posts).length}`)
+      bot.sendMessage(
+        groupId,
+        `${user.name}, seus pontos totais são: ${
+          Object.keys(user.posts).length
+        }`
+      )
       break
     case '/ferd':
-      bot.sendMessage(groupId, `Esse comando é uma menção honrosa ao mano ferd que foi o cobaia oficial enquanto eu nascia.`)
+      bot.sendMessage(
+        groupId,
+        `Esse comando é uma menção honrosa ao mano ferd que foi o cobaia oficial enquanto eu nascia.`
+      )
       break
     case '/top3':
-      bot.sendMessage(groupId, `Os top 3 membros do grupo das teleselfies são: ${getTopThreeRank(users)}`)
+      bot.sendMessage(
+        groupId,
+        `Os top 3 membros do grupo das teleselfies são: ${getTopThreeRank(
+          users
+        )}`
+      )
       break
     case '/versao':
       bot.sendMessage(groupId, `Versão ${pkg.version}`)
       break
     default:
-      bot.sendMessage(groupId, `Infelizmente eu não to ligado nesse comando que voce digitou :(`)
+      bot.sendMessage(
+        groupId,
+        `Infelizmente eu não to ligado nesse comando que voce digitou :(`
+      )
       break
   }
 }
@@ -50,11 +73,20 @@ const handleCommands = (bot, groupId, text, user) => {
 const handleMessages = (bot, groupId, text) => {
   if (hasToSendMessage()) {
     if (text.match('maconha')) {
-      bot.sendMessage(groupId, `Maconha? Tô fora, pego meus circuitos e vou embora!`)
+      bot.sendMessage(
+        groupId,
+        `Maconha? Tô fora, pego meus circuitos e vou embora!`
+      )
     } else if (text.match('cremos')) {
-      bot.sendMessage(groupId, `Atingir o mais alto nível de cremosidade é um dos sentidos da vida.`)
+      bot.sendMessage(
+        groupId,
+        `Atingir o mais alto nível de cremosidade é um dos sentidos da vida.`
+      )
     } else if (text.match('tabaco')) {
-      bot.sendMessage(groupId, `Tabaco? Tabaco tô dentro, pego meu borão virtual e acendo`)
+      bot.sendMessage(
+        groupId,
+        `Tabaco? Tabaco tô dentro, pego meu borão virtual e acendo`
+      )
     }
   }
 }

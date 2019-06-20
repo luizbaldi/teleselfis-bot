@@ -1,15 +1,17 @@
 const SHOW_MESSAGES = false
 
-const getWeeklyPostsLength = (currentUser) => {
+const getWeeklyPostsLength = currentUser => {
   const currentDate = new Date()
-  const currentWeek = new Date(new Date().setDate(currentDate.getDate() - currentDate.getDay()))
+  const currentWeek = new Date(
+    new Date().setDate(currentDate.getDate() - currentDate.getDay())
+  )
   const weeklyPosts = Object.values(currentUser.posts)
     .filter(post => new Date(post.date) >= currentWeek)
     .filter(post => new Date(post.date).getDay() <= currentDate.getDay())
   return weeklyPosts.length
 }
 
-const getTopThreeRank = (users) => {
+const getTopThreeRank = users => {
   /* @toDo: Refactor this function to return a reduced string */
   let membersString = ''
   const orderedUsers = Object.values(users)
@@ -31,4 +33,9 @@ const _getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-module.exports = { getWeeklyPostsLength, getTopThreeRank, hasToSendMessage, SHOW_MESSAGES }
+module.exports = {
+  getWeeklyPostsLength,
+  getTopThreeRank,
+  hasToSendMessage,
+  SHOW_MESSAGES
+}

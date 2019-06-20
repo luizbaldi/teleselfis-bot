@@ -1,6 +1,6 @@
 global.users = {}
 
-const setUsers = (newUsers) => {
+const setUsers = newUsers => {
   global.users = newUsers
 }
 

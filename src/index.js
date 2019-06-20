@@ -1,11 +1,11 @@
-/* Config */
+/* config */
 const factoryBot = require('./config/botConfig')
 
-/* Controllers */
+/* controllers */
 const { startBotListeners } = require('./controller/botController')
 
-/* Bot and server instances */
+/* bot and server instances */
 const bot = factoryBot()
 
-/* Start bot event listeners */
+/* start bot event listeners */
 startBotListeners(bot)

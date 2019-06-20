@@ -1,4 +1,3 @@
-/* Internal modules */
 const { getUserRef, getUsersRef } = require('../helper/firebase')
 const { users, setUsers } = require('../helper/userStore')
 
@@ -9,7 +8,7 @@ const getInitialData = () => {
       usersSnapshot = handleDefaultPosts(usersSnapshot)
       console.log('On users change: ', usersSnapshot)
 
-      /* Updates user store */
+      /* updates user store */
       setUsers(usersSnapshot)
 
       resolve(usersSnapshot)
@@ -19,11 +18,11 @@ const getInitialData = () => {
   return promise
 }
 
-const updateFirebaseUser = (user) => {
+const updateFirebaseUser = user => {
   getUserRef(user.id).update(user)
 }
 
-const handleDefaultPosts = (users) => {
+const handleDefaultPosts = users => {
   for (let [userId, user] of Object.entries(users)) {
     if (!users[userId].posts) {
       users[userId].posts = {}
