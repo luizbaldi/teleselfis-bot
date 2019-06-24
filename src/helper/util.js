@@ -26,10 +26,10 @@ const getTopThreeRank = users => {
 }
 
 const hasToSendMessage = () => {
-  return _getRandomInt(0, 5) >= 2
+  return getRandomInt(0, 5) >= 2
 }
 
-const _getRandomInt = (min, max) => {
+const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 

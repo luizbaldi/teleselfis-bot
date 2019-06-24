@@ -1,4 +1,3 @@
-const { expect } = require('chai')
 const {
   getWeeklyPostsLength,
   getTopThreeRank,
@@ -7,6 +6,7 @@ const {
 
 describe('Util', () => {
   let user
+
   beforeEach(() => {
     user = {
       id: 159677886,
@@ -27,29 +27,36 @@ describe('Util', () => {
     Object.values(user.posts).forEach(post => (post.date = new Date()))
   })
 
-  context('getWeeklyPostsLength method', () => {
+  describe('getWeeklyPostsLength method', () => {
     it('should return an integer', () => {
-      expect(getWeeklyPostsLength(user)).to.be.a('number')
+      const posts = getWeeklyPostsLength(user)
+
+      expect(typeof posts).toBe('number')
     })
 
     it('should get the amount of posts from the same week', () => {
-      /* set posts with current week */
-      expect(getWeeklyPostsLength(user)).to.be.equal(3)
+      const posts = getWeeklyPostsLength(user)
+
+      expect(posts).toBe(3)
     })
 
     it('should get correct amount from last week posts', () => {
-      /* set first post to be one week less */
       const date = new Date()
+
       date.setDate(date.getDate() - 7)
       user.posts[Object.keys(user.posts)[0]].date = date
 
-      expect(getWeeklyPostsLength(user)).to.be.equal(2)
+      const posts = getWeeklyPostsLength(user)
+
+      expect(posts).toBe(2)
     })
   })
 
-  context('hasToSendMessage method', () => {
+  describe('hasToSendMessage method', () => {
     it('should return a boolean', () => {
-      expect(hasToSendMessage()).to.be.a('boolean')
+      const shouldSendMessage = hasToSendMessage()
+
+      expect(typeof shouldSendMessage).toBe('boolean')
     })
   })
 })
